@@ -1,6 +1,6 @@
 <template>
   <h1 v-if="!correctPokemon">
-    Please wait a moment...
+    <PokemonLoader />
   </h1>
   <div v-else>
     <h1>Who is that pokemon?</h1>
@@ -9,6 +9,7 @@
     />
     <PokemonOptions :pokemons="pokemonsArray"
                     @selection-pokemon="checkAnswer"
+                    :optionColor="optionColor"
     />
 
     <template v-if="showAnswer">
@@ -25,13 +26,15 @@
 <script>
 import PokemonPicture from '../components/PokemonPicture';
 import PokemonOptions from '../components/PokemonOptions';
+import PokemonLoader from '../components/PokemonLoader';
 import getPokemonOptions from '@/helpers/getPokemonOptions';
 
 export default {
   name: 'PokemonPage',
   components: {
     PokemonPicture,
-    PokemonOptions
+    PokemonOptions,
+    PokemonLoader
   },
   data() {
     return {
@@ -39,7 +42,8 @@ export default {
       correctPokemon: null,
       showPokemon: false,
       showAnswer: false,
-      message: ''
+      message: '',
+      optionColor: ''
     }
   },
   methods: {
@@ -52,9 +56,13 @@ export default {
     checkAnswer(pokemonIdEvent) {
       this.showPokemon = true;
       this.showAnswer = true;
-      (this.correctPokemon.id === pokemonIdEvent)
-          ? this.message = `Correct!`
-          : this.message = `Incorrect!. Its ${this.correctPokemon.name}`;
+      if (this.correctPokemon.id === pokemonIdEvent) {
+        this.message = `Correct!`;
+        this.optionColor = 'greenYellow';
+      } else {
+        this.message = `Incorrect!. Its ${this.correctPokemon.name}`;
+        this.optionColor = 'red';
+      }
     },
     newGame() {
       this.pokemonsArray = []

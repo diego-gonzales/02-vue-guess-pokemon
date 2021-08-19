@@ -3,7 +3,7 @@
     <ul>
       <li v-for="pokemon in pokemons"
           :key="pokemon.id"
-          @click="$emit('selectionPokemon', pokemon.id)">
+          @click="$emit('selectionPokemon', pokemon.id), clickedOption($event)">
         {{ pokemon.name }}
       </li>
     </ul>
@@ -16,14 +16,35 @@ export default {
     pokemons: {
       type: Array,
       required: true
+    },
+    optionColor: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    // Esto es un extra de mi parte
+    clickedOption(event) {
+      this.cleanColorOption();
+
+      const optionSelected = event.target;
+      optionSelected.classList.add('change-color')
+    },
+    cleanColorOption() {
+      const liTags = document.querySelector('.change-color');
+      if (liTags) liTags.classList.remove('change-color');
     }
   }
 }
 </script>
 
 <style scoped>
+.change-color {
+  background-color: v-bind(optionColor);
+}
 ul {
     list-style-type: none;
+    padding: 0px;
 }
 li {
     background-color: white;
