@@ -1,7 +1,7 @@
 import pokemonApi from '@/api/pokemonApi';
 
 
-const getArrayNumbers = () => {
+export const getArrayNumbers = () => {
     const pokemonsArray = Array.from(Array(650)); // lógica explicada en el video 91 de curso de Vue
     return pokemonsArray.map((_, index) => index + 1);
 };
@@ -12,7 +12,7 @@ const getPokemonOptions = async() => {
     return pokemons;
 };
 
-const getPokemonNames = async ([a, b, c, d] = []) => {
+export const getPokemonNames = async ([a, b, c, d] = []) => {
     const promisesArray = [
         pokemonApi.get(`${a}`),
         pokemonApi.get(`${b}`),
